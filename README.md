@@ -1,12 +1,14 @@
 # Missing Data Analysis in Retail POS Systems
 
-**Type:** Descriptive Analysis | **Tools:** Excel (formulas, pivot logic, charting) | **Domain:** Retail / Point-of-Sale Data Quality
+**Type:** Descriptive Analysis | **Tools:** Excel (formulas, pivot logic, charting), SQL | **Domain:** Retail / Point-of-Sale Data Quality
 
 ---
 
 ## Executive Summary
 
 Analysis of transaction-level POS data across 10 retail stores found that **36.4% of expected product-category sales records were missing** over a 3-month period. The gap was concentrated in specific stores rather than specific months — Store N10 was missing over half its expected data (51.3%), while Store N7 was nearly complete (20.0% missing). This points to a **store-level data capture issue**, not a seasonal or company-wide one, and narrows where a data-quality intervention should be targeted.
+
+![Missing data rate by store](store_missing_rate_chart.png)
 
 ---
 
@@ -33,6 +35,7 @@ Source: Nielsen Store Transaction Data (Kaggle), a dataset purpose-built to mode
 3. **Coverage check** — For each store-month, counted how many of the 80 expected categories had at least one recorded sale, using `COUNTIFS`.
 4. **Missing rate** — Calculated as `(Expected − Present) ÷ Expected`, computed at both the store level and the month level.
 5. **Verification** — All calculations are live formulas (no hardcoded outputs), so the workbook recalculates automatically if source data changes.
+6. **SQL replication** — The same coverage-check logic (expected combinations minus present combinations via an anti-join, instead of `COUNTIFS`) is reproduced in [`analysis.sql`](analysis.sql), producing matching store- and month-level summaries.
 
 **Analysis type:** Descriptive — this quantifies *what* is missing and *where*, without yet modeling *why* (a natural extension for follow-up work).
 
